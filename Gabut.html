@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Untuk Indri ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+*{box-sizing:border-box}
+body{
+margin:0;font-family:Poppins,sans-serif;
+min-height:100vh;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:#fff;display:flex;justify-content:center;align-items:center;
+}
+.container{width:100%;max-width:430px;padding:20px;z-index:5}
+.card{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(10px);
+border-radius:20px;padding:25px;
+box-shadow:0 0 30px rgba(0,0,0,.3);
+animation:fade .6s ease
+}
+.hidden{display:none}
+button{
+padding:12px 22px;margin:8px;border:none;border-radius:30px;
+background:linear-gradient(135deg,#ff758c,#ff7eb3);
+color:#fff;font-size:15px;cursor:pointer
+}
+button:active{transform:scale(.95)}
+@keyframes fade{from{opacity:0;transform:translateY(20px)}to{opacity:1}}
+
+#gameArea,#gameArea2{
+height:260px;border:2px dashed rgba(255,255,255,.4);
+border-radius:15px;position:relative;overflow:hidden;margin-top:10px
+}
+.heart,.flag{position:absolute;font-size:22px;cursor:pointer}
+.chat{background:rgba(255,255,255,.12);padding:10px;border-radius:12px;margin:10px 0}
+
+.confetti{position:fixed;top:-10px;font-size:18px;animation:fall 3s linear forwards;pointer-events:none}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg);opacity:0}}
+
+.progress{height:15px;background:#333;border-radius:10px;overflow:hidden}
+.bar{height:100%;width:0;background:#ff7eb3;transition:.3s}
+</style>
+</head>
+<body>
+
+<audio id="music" autoplay loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5c9c8c6f4e.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+
+<div id="s1" class="card">
+<h2>Hai Indri 🌙</h2>
+<p id="typing"></p>
+<button onclick="go(2)">Mulai Perjalanan ❤️</button>
+</div>
+
+<div id="s2" class="card hidden">
+<h3>Lanjut atau takut baper? 😏</h3>
+<button onclick="go(3)">Lanjut</button>
+<button onclick="alert('Terlambat… Dimas udah duluan 😌');go(3)">Takut baper</button>
+</div>
+
+<div id="s3" class="card hidden">
+<h3>Panduan Menghadapi Dimas</h3>
+<p>
+☑ Random<br>
+☑ Sok kuat<br>
+☑ Suka suasana alam yang adem 🌿<br>
+☑ Kalau nyaman cerewet
+</p>
+<button onclick="go(4)">Aku siap</button>
+</div>
+
+<div id="s4" class="card hidden">
+<h3>Tangkap Hati Dimas ❤️</h3>
+<p>Score: <span id="score">0</span>/5</p>
+<div id="gameArea"></div>
+</div>
+
+<div id="s5" class="card hidden">
+<h3>Hindari Red Flag 🚩</h3>
+<p>Klik ❤️ , jangan klik 🚩</p>
+<p>Score: <span id="score2">0</span>/5</p>
+<div id="gameArea2"></div>
+</div>
+
+<div id="s6" class="card hidden">
+<h3>Fun Facts Dimas</h3>
+<p id="fact"></p>
+<button onclick="nextFact()">Next 👉</button>
+</div>
+
+<div id="s7" class="card hidden">
+<h3>Kuis Tentang Dimas</h3>
+<p>Dimas lebih suka?</p>
+<button onclick="quiz('ramai')">Tempat ramai</button>
+<button onclick="quiz('alam')">Suasana alam yang adem 🌿</button>
+<p id="quizRes"></p>
+<button id="qn" class="hidden" onclick="go(8)">Lanjut</button>
+</div>
+
+<div id="s8" class="card hidden">
+<h3>Kuis Tentang Indri 😳</h3>
+<p>Menurut Dimas, Indri itu:</p>
+<button onclick="indri()">Cantik doang</button>
+<button onclick="indri()">Cantik + bikin nyaman</button>
+<button onclick="indri()">Cantik + calon pacar</button>
+<p id="ires"></p>
+<button id="inext" class="hidden" onclick="go(9)">Lanjut</button>
+</div>
+
+<div id="s9" class="card hidden">
+<h3>Love Meter 💕</h3>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<p id="ltext">Menghitung kecocokan...</p>
+</div>
+
+<div id="s10" class="card hidden">
+<h3>Story Alam Adem 🌿</h3>
+<p>Kalau lagi capek, kamu lebih pilih:</p>
+<button onclick="story()">Ngopi sendiri</button>
+<button onclick="story(true)">Duduk santai bareng kamu 😌</button>
+</div>
+
+<div id="s11" class="card hidden">
+<h3>Sayangnya…</h3>
+<p>Dimas cuma berani sampai sini…</p>
+<button onclick="go(12)">Oh ya?</button>
+</div>
+
+<div id="s12" class="card hidden">
+<h3>Dari hati Dimas…</h3>
+<p id="voice"></p>
+<button onclick="go(13)">Lanjut</button>
+</div>
+
+<div id="s13" class="card hidden">
+<h3>Countdown…</h3>
+<h1 id="cd">3</h1>
+</div>
+
+<div id="s14" class="card hidden">
+<h2>Indri…</h2>
+<h1>Mau gak jadi pacar aku? ❤️</h1>
+<button onclick="end()">Iya 😍</button>
+<button onclick="end()">Mau banget 🤭</button>
+</div>
+
+<div id="s15" class="card hidden">
+<h1>Achievement Unlocked 🏆</h1>
+<h2>Dimas ❤️ Indri</h2>
+<p id="date"></p>
+<p>Game selesai… tapi ceritanya baru mulai 😌</p>
+</div>
+
+</div>
+
+<script>
+const music=document.getElementById("music");
+document.body.onclick=()=>music.play();
+
+const typingText="Ini bukan website biasa.\nIni hasil overthinking Dimas jam 2 pagi 😄\nTenang… bukan undangan nikah kok. Masih HTML.";
+let ti=0;
+function type(){
+if(ti<typingText.length){
+document.getElementById("typing").innerHTML+=typingText[ti]==="\n"?"<br>":typingText[ti];
+ti++;setTimeout(type,40);
+}}
+type();
+
+function go(n){
+document.querySelectorAll(".card").forEach(c=>c.classList.add("hidden"));
+document.getElementById("s"+n).classList.remove("hidden");
+if(n===4)game1();
+if(n===5)game2();
+if(n===9)autoFill();
+if(n===13)countdown();
+if(n===12)voice();
+}
+
+let score=0;
+function game1(){
+score=0;document.getElementById("score").innerText=0;
+const area=document.getElementById("gameArea");area.innerHTML="";
+let iv=setInterval(()=>{
+let h=document.createElement("div");h.className="heart";h.innerHTML="❤️";
+h.style.left=Math.random()*85+"%";h.style.top="0px";
+h.onclick=()=>{score++;document.getElementById("score").innerText=score;h.remove();
+if(score>=5){clearInterval(iv);setTimeout(()=>go(5),500)}}
+area.appendChild(h);
+let y=0;let f=setInterval(()=>{y+=3;h.style.top=y+"px";if(y>240){clearInterval(f);h.remove()}},20);
+},600);
+}
+
+let score2=0;
+function game2(){
+score2=0;document.getElementById("score2").innerText=0;
+const area=document.getElementById("gameArea2");area.innerHTML="";
+let iv=setInterval(()=>{
+let el=document.createElement("div");
+let good=Math.random()>0.3;
+el.className=good?"heart":"flag";
+el.innerHTML=good?"❤️":"🚩";
+el.style.left=Math.random()*85+"%";el.style.top="0px";
+el.onclick=()=>{
+if(good){score2++;document.getElementById("score2").innerText=score2;}
+else alert("Itu red flag 😆");
+el.remove();
+if(score2>=5){clearInterval(iv);setTimeout(()=>go(6),500)}
+}
+area.appendChild(el);
+let y=0;let f=setInterval(()=>{y+=3;el.style.top=y+"px";if(y>240){clearInterval(f);el.remove()}},20);
+},600);
+}
+
+const facts=["Suka suasana alam yang adem 🌿","Overthinking malam","Kalau suka → serius"];
+let fi=0;
+function nextFact(){
+document.getElementById("fact").innerText=facts[fi++];
+if(fi>=facts.length){setTimeout(()=>go(7),800)}
+}
+
+function quiz(x){
+document.getElementById("quizRes").innerText=x==="alam"?"Kok tau sih… perhatian banget 😳":"Salah 😆 tapi gapapa.";
+document.getElementById("qn").classList.remove("hidden");
+}
+
+function indri(){
+document.getElementById("ires").innerText="Jawaban apapun… tetep kamu 😌";
+document.getElementById("inext").classList.remove("hidden");
+}
+
+let p=0;
+function autoFill(){
+p=0;
+const bar=document.getElementById("bar");
+const text=document.getElementById("ltext");
+let iv=setInterval(()=>{
+p+=10;
+bar.style.width=p+"%";
+text.innerText="Menghitung kecocokan... "+p+"%";
+if(p>=100){
+clearInterval(iv);
+text.innerText="Error… terlalu cocok ❤️";
+setTimeout(()=>go(10),1200);
+}
+},250);
+}
+
+function story(love){
+alert(love?"Jawaban paling benar 😌":"Boleh sih 😄");
+go(11);
+}
+
+const voiceText="Aku bukan yang paling sempurna…\nTapi kalau soal kamu,\naku paling serius.";
+let vi=0;
+function voice(){
+if(vi<voiceText.length){
+document.getElementById("voice").innerHTML+=voiceText[vi]==="\n"?"<br>":voiceText[vi];
+vi++;setTimeout(voice,50);
+}}
+
+function countdown(){
+let c=3;
+const el=document.getElementById("cd");
+let iv=setInterval(()=>{
+el.innerText=c--;
+if(c<0){clearInterval(iv);go(14)}
+},1000);
+}
+
+function end(){
+go(15);
+document.getElementById("date").innerText="Official since: "+new Date().toLocaleDateString();
+for(let i=0;i<60;i++){
+let c=document.createElement("div");c.className="confetti";c.innerHTML="❤️";
+c.style.left=Math.random()*100+"%";document.body.appendChild(c);
+setTimeout(()=>c.remove(),3000);
+}
+}
+</script>
+
+</body>
+</html>
